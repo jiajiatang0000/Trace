@@ -42,7 +42,7 @@ print(
 
 data_input = Input(
     type="uri_folder",
-    path="azureml://subscriptions/437ce2b6-c1d8-4df6-b067-fc9209c568e9/resourcegroups/Multi-policy/workspaces/multi-policy-training/datastores/workspaceblobstore/paths/UI/2026-03-19_160159_UTC/TRACE-Benchmark/LLM-CL_Benchmark/LLM-CL-Benchmark_5000"
+    path="https://multipolicytra3370922241.blob.core.windows.net/azureml-blobstore-ac23d83f-1c41-4d32-bba0-8022c5614d4b/UI/2026-03-19_160159_UTC/TRACE-Benchmark/LLM-CL_Benchmark/LLM-CL-Benchmark_5000"
 )
 model_input = Input(
     type="uri_folder",
@@ -50,38 +50,38 @@ model_input = Input(
 )
 
 inputs = {
-  "DATA_PATH": data_input,
-  "MODEL_PATH": model_input,
-  "OUTPUT_DIR_PREFIX": "outputs/6datasets_CFMPSN_v1_",
+  "data_path": data_input,
+  "model_name_or_path": model_input,
+  "output_dir": "outputs/6datasets_CFMPSN_v1_",
 
-  "LORA_R": 64,
-  "LORA_ALPHA": 128,
-  "LORA_DROPOUT": 0.0,
-  "LR_CSTANCE_FOMC": 1e-5,
-  "LR_MEETINGBANK": 1e-5,
-  "LR_ScienceQA": 1e-5,
-  "LR_Py150": 1e-5,
-  "LR_NumGLUE_cm": 1e-5,
+  "lora_r": 64,
+  "lora_alpha": 128,
+  "lora_dropout": 0.0,
+  "lr_CSTANCE_FOMC": 1e-5,
+  "lr_MeetingBank": 1e-5,
+  "lr_ScienceQA": 1e-5,
+  "lr_Py150": 1e-5,
+  "lr_NumGLUE_cm": 1e-5,
 
-  "EPOCHS_CSTANCE": 5,
-  "EPOCHS_FOMC": 3,
-  "EPOCHS_MEETINGBANK": 7,
-  "EPOCHS_ScienceQA": 3,
-  "EPOCHS_Py150": 5,
-  "EPOCHS_NumGLUE_cm": 5,
+  "epochs_CSTANCE": 5,
+  "epochs_FOMC": 3,
+  "epochs_MeetingBank": 7,
+  "epochs_ScienceQA": 3,
+  "epochs_Py150": 5,
+  "epochs_NumGLUE_cm": 5,
 
-  "PER_DEVICE_BATCH_SIZE": 1,
-  "GRADIENT_ACCUMULATION_STEPS": 8,
-  "MAX_LENGTH": 1024,
-  "WARMUP_STEPS": 30,
-  "MAX_GRAD_NORM": 0.3
+  "per_device_batch_size": 1,
+  "gradient_accumulation_steps": 8,
+  "max_length": 1024,
+  "warmup_steps": 30,
+  "max_grad_norm": 0.3
 }
 args_string = " ".join([f"--{k}={v}" for k, v in inputs.items()])
 print(f"python training.py {args_string}")
 
 job = command(
     code = "./training/", # location of source code
-    command = f"python train_6datasets_CFMPSN.py {args_string}",
+    command = f"python train_6datasets_CFMPSN.py {args_string} --bf16",
     environment=f"{custom_env_name}@latest",
     display_name="multi-policy-training-5000"
 )
